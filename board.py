@@ -6,7 +6,6 @@ class Board:
         self.board = [[False for row in range(y)] for col in range(x)]
 
     def update_slot(self, player, x, y):
-        print('haha')
         self.board[x][y] = player
 
     def get_slot(self, x, y):
@@ -19,8 +18,8 @@ class Board:
     def play(self, player, column):
         for slot in range(self.rows):
             if not self.get_slot(column, slot):
-                self.board[column][slot] = player
-                return
+                self.update_slot(player, column, slot)
+                return slot
         print('Column is full!')
         return False
 
@@ -34,6 +33,7 @@ class Board:
         return row
 
     def display_board(self):
+        print()
         columns = 'col '
         for x in range(self.columns):
             columns += str(x) + ' '
@@ -43,15 +43,22 @@ class Board:
         print()
 
     def turn(self, player):
-        self.display()
-        self.check_winner()
+        self.display_board()
+        # self.check_winner()
         if player == 1: # human player
-            col = input()
-            self.play(player, col)
-        else: # AI
-            col = calculate()
-            self.play(player, col)
+            col = int(input('Which column would you like to drop a piece in? '))
+            if col > self.columns:
+                print('Invalid column number!')
+                return False
+            slot = self.play(player, col)
+            print('Player {0} dropped a piece in slot ({1}, {2})!'.format(player, col, slot))
+        # else: # AI
+            # col = calculate()
+            # self.play(player, col)
 
-b = Board()
-b.play(1, 0)
-b.display_board()
+b = Board(10, 10)
+b.turn(1)
+b.play(2, 0)
+b.turn(1)
+b.play(2, 1)
+b.turn(1)
