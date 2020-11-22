@@ -45,10 +45,10 @@ class Board:
     def turn(self, player):
         self.display()
         self.check_winner()
-        if player == 1: #human player
+        if player == 1: # human player
             col = input()
             self.play(player, col)
-        else: #AI
+        else: # AI
             col = calculate()
             self.play(player, col)
 
